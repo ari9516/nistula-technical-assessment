@@ -102,7 +102,7 @@ curl -s -X POST http://localhost:8000/webhook/message \
 
 ```bash
 curl http://localhost:8000/health
-# {"status":"ok","timestamp":"...","version":"1.0.0"}
+# {"status":"ok","timestamp":"...","version":"2.0.0"}
 ```
 
 ---
@@ -115,7 +115,10 @@ Every message starts at a base score of `0.70` and is adjusted:
 |---|---|
 | `booking_ref` present (known guest) | +0.10 |
 | Clear pre-sales query (availability / pricing) | +0.10 |
+| Standard post-sales query (wifi, check-in, etc.) | +0.05 |
 | General enquiry (vague) | −0.05 |
+| Special request (needs human coordination) | −0.05 |
+| Positive sentiment detected | +0.05 |
 | Negative sentiment detected | −0.10 |
 | Urgent sentiment detected | −0.15 |
 | Complaint (any) | Forced floor: **0.40** |
@@ -124,8 +127,8 @@ Every message starts at a base score of `0.70` and is adjusted:
 
 | Score | Action |
 |---|---|
-| > 0.85 | `auto_send` |
-| 0.60 – 0.85 | `agent_review` |
+| >= 0.85 | `auto_send` |
+| 0.60 – 0.84 | `agent_review` |
 | < 0.60 or complaint | `escalate` |
 
 Every response includes a `reasoning` field explaining exactly which factors applied, so agents can audit any decision.
