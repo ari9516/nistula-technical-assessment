@@ -3,14 +3,6 @@ main.py
 ───────
 FastAPI entry point for the Nistula Guest Message Handler.
 
-Enhancements over basic solution:
-  - /health endpoint for uptime monitoring.
-  - Request ID injected into every response header (X-Request-ID)
-    for traceability across logs.
-  - Structured logging (JSON-friendly) so logs can be ingested by
-    Datadog / CloudWatch without extra parsing.
-  - Startup check: fails fast if CLAUDE_API_KEY is missing, with a
-    clear error message rather than a cryptic 500 later.
 """
 
 import logging
